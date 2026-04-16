@@ -24,13 +24,22 @@
     border-radius: 4px; font-size: 12px; z-index: 2;
     pointer-events: none;
   }
-  .link {
-    position: absolute; top: 6px; right: 6px;
-    background: rgba(255,0,0,0.8); padding: 3px 10px;
-    border-radius: 4px; font-size: 11px; z-index: 2;
-    color: #fff; text-decoration: none;
+  #fsBtn {
+    position: fixed;
+    bottom: 14px; right: 14px;
+    width: 44px; height: 44px;
+    background: rgba(255,0,0,0.9);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .link:hover { background: rgba(255,0,0,1); }
+  #fsBtn:hover { background: rgba(255,0,0,1); }
   @media (max-width: 800px) {
     .grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
   }
@@ -41,6 +50,7 @@
 </head>
 <body>
 <div class="grid" id="grid"></div>
+<button id="fsBtn" title="Fullscreen">⛶</button>
 <script>
   const ids = [
     "1pSs6by1yYM",
@@ -50,22 +60,25 @@
     "vfszY1JYbMc",
     "d-HkkUgQ_ww"
   ];
-  const origin = encodeURIComponent(window.location.origin);
   const grid = document.getElementById("grid");
   ids.forEach((id, i) => {
     const tile = document.createElement("div");
     tile.className = "tile";
-    const src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&playsinline=1&rel=0&enablejsapi=1&origin=${origin}`;
     tile.innerHTML = `
       <div class="label">Stream ${i+1}</div>
-      <a class="link" href="https://youtube.com/watch?v=${id}" target="_blank">Open ↗</a>
       <iframe
-        src="${src}"
+        src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&playsinline=1&rel=0&vq=small"
         allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-        allowfullscreen
-        referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+        allowfullscreen></iframe>`;
     grid.appendChild(tile);
   });
+  document.getElementById("fsBtn").onclick = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      document.documentElement.requestFullscreen();
+    }
+  };
 </script>
 </body>
 </html>
