@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multiview</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #0a0a0a; font-family: system-ui, sans-serif; color: #eee; overflow: hidden; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 4px;
+    width: 100vw;
+    height: 100vh;
+    padding: 4px;
+  }
+  .tile { position: relative; background: #111; border-radius: 6px; overflow: hidden; }
+  .tile iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .label {
+    position: absolute; top: 6px; left: 6px;
+    background: rgba(0,0,0,0.7); padding: 3px 10px;
+    border-radius: 4px; font-size: 12px; z-index: 2;
+    pointer-events: none;
+  }
+  .link {
+    position: absolute; top: 6px; right: 6px;
+    background: rgba(255,0,0,0.8); padding: 3px 10px;
+    border-radius: 4px; font-size: 11px; z-index: 2;
+    color: #fff; text-decoration: none;
+  }
+  .link:hover { background: rgba(255,0,0,1); }
+  @media (max-width: 800px) {
+    .grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
+  }
+  @media (max-width: 500px) {
+    .grid { grid-template-columns: 1fr; grid-template-rows: repeat(6, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="grid" id="grid"></div>
+<script>
+  const ids = [
+    "1pSs6by1yYM",
+    "sYZtOFzM78M",
+    "Nq2wYlWFucg",
+    "nSpwwcHVp80",
+    "vfszY1JYbMc",
+    "d-HkkUgQ_ww"
+  ];
+  const origin = encodeURIComponent(window.location.origin);
+  const grid = document.getElementById("grid");
+  ids.forEach((id, i) => {
+    const tile = document.createElement("div");
+    tile.className = "tile";
+    const src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&playsinline=1&rel=0&enablejsapi=1&origin=${origin}`;
+    tile.innerHTML = `
+      <div class="label">Stream ${i+1}</div>
+      <a class="link" href="https://youtube.com/watch?v=${id}" target="_blank">Open ↗</a>
+      <iframe
+        src="${src}"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+        allowfullscreen
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+    grid.appendChild(tile);
+  });
+</script>
+</body>
+</html>
